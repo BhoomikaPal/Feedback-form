@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './FeedbackForm.css';
 
@@ -12,21 +12,6 @@ function FeedbackForm() {
     satisfaction: '',
   });
 
-  useEffect(() => {
-    // Check if there's any saved data in local storage
-    const savedData = localStorage.getItem('feedbackData');
-    if (savedData) {
-      // Log the saved data to the console
-      console.log('Saved data retrieved from local storage:', savedData);
-      // Parse the saved data
-      const parsedData = JSON.parse(savedData);
-      // Log the parsed data to the console
-      console.log('Parsed data:', parsedData);
-      // Update the feedback state with the parsed data
-      setFeedback(parsedData);
-    }
-  }, []);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFeedback({ ...feedback, [name]: value });
@@ -36,26 +21,39 @@ function FeedbackForm() {
     setFeedback({ ...feedback, satisfaction });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-    
-    console.log('Form is being submitted...'); // Add this line to check if handleSubmit is triggered
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    // Log the feedback data to console to verify its contents
-    console.log('Feedback data:', feedback);
+    try {
+      // Save feedback data
+      await saveFeedback(feedback);
 
-    // Handle form submission logic here
-    console.log('Form submitted:', feedback);
-  
-    // Save data to local storage
-    localStorage.setItem('feedbackData', JSON.stringify(feedback));
+      // Clear form fields
+      setFeedback({
+        name: '',
+        digitalInitiatives: '',
+        cleanliness: '',
+        complaints: '',
+        satisfaction: '',
+      });
 
-    // Navigate to the ThankYou component
-    if (navigate) {
-      navigate('/thank-you');
-    } else {
-      console.error('Navigate object is undefined.');
+      // Navigate to thank you page
+      navigate('/');
+    } catch (error) {
+      console.error('Error saving feedback:', error);
+      // Handle error
     }
+  };
+
+  const saveFeedback = async (data) => {
+    // Mock API call to save feedback data
+    await fetch('/api/feedback', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
   };
 
   return (
