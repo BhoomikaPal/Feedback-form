@@ -1,68 +1,76 @@
-/* FeedbackForm.css */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 20px 0; /* Add padding to the top and bottom */
+}
 
-/* Container styles */
-.feedback-form-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Full height of the viewport */
-  }
-  
-  /* Form styles */
-  .feedback-form {
-    width: 80%; /* 80% of the viewport width */
-    padding: 30px;
-    background-color: #f7f7f7;
-    border-radius: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .feedback-form h1 {
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .feedback-form label {
-    display: block;
-    margin-bottom: 15px;
-    color: #666;
-  }
-  
-  .feedback-form input,
-  .feedback-form textarea,
-  .feedback-form select {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-  }
-  
-  .feedback-form button {
-    width: 100%;
-    padding: 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .feedback-form button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Emoticons styles */
-  .emoticons {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .emoticons svg {
-    width: 40px;
-    height: 40px;
-    margin: 0 10px;
-  }
-  
+
+.feedback-form {
+  text-align: center;
+  width: 100%; /* Adjust the width as needed */
+  max-width: 800px; /* Increase the max-width for a wider container */
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #d3edf7;
+}
+
+
+
+.feedback-form label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.feedback-form input,
+.feedback-form textarea,
+.feedback-form select {
+  width: calc(100% - 16px); /* Adjust width to account for padding and border */
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.feedback-form .satisfaction {
+  margin-top: 20px;
+}
+
+.feedback-form .satisfaction-icons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.feedback-form .satisfaction-icon {
+  cursor: pointer;
+  margin: 0 10px;
+  font-size: 30px;
+}
+
+.feedback-form .satisfaction-icon.selected {
+  background-color: #ffd700;
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.feedback-form .satisfaction-description {
+  font-size: 14px;
+  color: #888;
+  margin-top: 5px;
+}
+
+.feedback-form button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+
