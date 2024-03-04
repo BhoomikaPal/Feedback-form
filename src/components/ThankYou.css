@@ -1,67 +1,45 @@
-/* ThankYou.css */
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/public/background1.jpg'); 
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 .thank-you-container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    overflow: hidden;
-    background-color: #cceeff; /* Light blue background */
-  }
-  
-  .car-container {
-    position: absolute;
-    top: 50%;
-    left: -100px; /* Initial position of the car */
-    animation: moveCar 5s linear infinite; /* Adjust duration as needed */
-    perspective: 1000px; /* Add perspective */
-  }
-  
-  .car {
-    width: 100px; /* Adjust car dimensions */
-    height: 50px; /* Adjust car dimensions */
-    background-color: #ffcc00; /* Yellow car */
-    transform: rotateY(45deg); /* Apply rotation for 3D effect */
-  }
-  
-  @keyframes moveCar {
-    0% {
-      left: -100px; /* Initial position of the car */
-    }
-    100% {
-      left: calc(100vw + 100px); /* Move the car to the right end of the screen */
-    }
-  }
-  
-  .thank-you-content {
-    text-align: center;
-    position: absolute;
-    top: 50%;
-    right: 50px; /* Adjust distance from the right edge */
-    transform: translateY(-50%);
-    color: #333;
-  }
-  
-  .thank-you-content h1 {
-    margin-bottom: 10px;
-  }
-  
-  .thank-you-content p {
-    margin-bottom: 20px;
-  }
-  
-  .thank-you-content a {
-    color: #fff;
-    background-color: #007bff; /* Blue button */
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-  }
-  
-  .thank-you-content a:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-  }
-  
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.thank-you-content {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px; /* Adjust margin if needed */
+}
+
+.feedback-button {
+  background-color: #007bff; /* Blue color */
+  color: white; /* White text */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.feedback-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
