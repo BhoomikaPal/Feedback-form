@@ -1,68 +1,130 @@
-import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import { RiEmotionHappyLine, RiEmotionSadLine } from 'react-icons/ri';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './FeedbackForm.css';
 
-function FeedbackForm({ history }) {
+function FeedbackForm() {
+  const navigate = useNavigate();
   const [feedback, setFeedback] = useState({
     name: '',
-    email: '',
-    feedbackText: '',
+    digitalInitiatives: '',
+    cleanliness: '',
     complaints: '',
     satisfaction: '',
   });
+
+  useEffect(() => {
+    // Check if there's any saved data in local storage
+    const savedData = localStorage.getItem('feedbackData');
+    if (savedData) {
+      // Log the saved data to the console
+      console.log('Saved data retrieved from local storage:', savedData);
+      // Parse the saved data
+      const parsedData = JSON.parse(savedData);
+      // Log the parsed data to the console
+      console.log('Parsed data:', parsedData);
+      // Update the feedback state with the parsed data
+      setFeedback(parsedData);
+    }
+  }, []);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFeedback({ ...feedback, [name]: value });
   };
 
+  const handleSatisfactionChange = (satisfaction) => {
+    setFeedback({ ...feedback, satisfaction });
+  };
+
   const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log(feedback);
-    history.push('/thank-you'); 
+    e.preventDefault(); // Prevent default form submission behavior
+    
+    console.log('Form is being submitted...'); // Add this line to check if handleSubmit is triggered
+
+    // Log the feedback data to console to verify its contents
+    console.log('Feedback data:', feedback);
+
+    // Handle form submission logic here
+    console.log('Form submitted:', feedback);
+  
+    // Save data to local storage
+    localStorage.setItem('feedbackData', JSON.stringify(feedback));
+
+    // Navigate to the ThankYou component
+    if (navigate) {
+      navigate('/thank-you');
+    } else {
+      console.error('Navigate object is undefined.');
+    }
   };
 
   return (
-  
-      <div>
-        <RiEmotionHappyLine />
-        <RiEmotionSadLine />
-        
-    
-    <div className="feedback-form">
-      <h1>Manufacturing Plant Visit Feedback</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Your Name:
-          <input type="text" name="name" value={feedback.name} onChange={handleInputChange} required />
-        </label>
-        <label>
-          Your Email:
-          <input type="email" name="email" value={feedback.email} onChange={handleInputChange} required />
-        </label>
-        <label>
-          Feedback:
-          <textarea name="feedbackText" value={feedback.feedbackText} onChange={handleInputChange} rows="4" required />
-        </label>
-        <label>
-          Complaints (if any):
-          <textarea name="complaints" value={feedback.complaints} onChange={handleInputChange} rows="4" />
-        </label>
-        <label>
-          Satisfaction:
-          <select name="satisfaction" value={feedback.satisfaction} onChange={handleInputChange} required>
-            <option value="">Select</option>
-            <option value="very_satisfied">Very Satisfied <RiEmotionHappyLine /></option>
-            <option value="satisfied">Satisfied <RiEmotionHappyLine /></option>
-            <option value="neutral">Neutral</option>
-            <option value="unsatisfied">Unsatisfied <RiEmotionSadLine /></option>
-            <option value="very_unsatisfied">Very Unsatisfied <RiEmotionSadLine /></option>
-          </select>
-        </label>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+    <div className="background">
+      <div className="container">
+        <div className="feedback-form">
+          <h1>TBT-Budhni Plant Visit Feedback</h1>
+          <form onSubmit={handleSubmit}>
+            <label>
+              Your Name:
+              <input type="text" name="name" value={feedback.name} onChange={handleInputChange} required />
+            </label>
+            <label>
+              Cleanliness:
+              <textarea name="cleanliness" value={feedback.cleanliness} onChange={handleInputChange} rows="4" required />
+            </label>
+            <label>
+              Area for Improvement (if any):
+              <textarea name="complaints" value={feedback.complaints} onChange={handleInputChange} rows="4" />
+            </label>
+            <div className="satisfaction">
+              <label>Satisfaction Level:</label>
+              <div className="satisfaction-icons">
+                <span
+                  className={`satisfaction-icon ${feedback.satisfaction === 'very_satisfied' && "selected"}`}
+                  onClick={() => handleSatisfactionChange('very_satisfied')}
+                  title="Very Satisfied"
+                >
+                  😊
+                </span>
+                <span
+                  className={`satisfaction-icon ${feedback.satisfaction === 'satisfied' && "selected"}`}
+                  onClick={() => handleSatisfactionChange('satisfied')}
+                  title="Satisfied"
+                >
+                  🙂
+                </span>
+                <span
+                  className={`satisfaction-icon ${feedback.satisfaction === 'neutral' && "selected"}`}
+                  onClick={() => handleSatisfactionChange('neutral')}
+                  title="Neutral"
+                >
+                  😐
+                </span>
+                <span
+                  className={`satisfaction-icon ${feedback.satisfaction === 'unsatisfied' && "selected"}`}
+                  onClick={() => handleSatisfactionChange('unsatisfied')}
+                  title="Unsatisfied"
+                >
+                  😞
+                </span>
+                <span
+                  className={`satisfaction-icon ${feedback.satisfaction === 'very_unsatisfied' && "selected"}`}
+                  onClick={() => handleSatisfactionChange('very_unsatisfied')}
+                  title="Very Unsatisfied"
+                >
+                  😢
+                </span>
+              </div>
+              {feedback.satisfaction && (
+                <div className="satisfaction-description">
+                  {feedback.satisfaction}
+                </div>
+              )}
+            </div>
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
