@@ -1,61 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './FeedbackForm.css';
+import { addFeedback } from '../api/api';
 
-function FeedbackForm() {
-  const navigate = useNavigate();
-  const [feedback, setFeedback] = useState({
-    name: '',
-    digitalInitiatives: '',
-    cleanliness: '',
-    complaints: '',
-    satisfaction: '',
-  });
+const initial_value={
+  name: '',
+  cleanliness: '',
+  complaints: '',
+  satisfaction: '',
+};
 
-  useEffect(() => {
-    // Check if there's any saved data in local storage
-    const savedData = localStorage.getItem('feedbackData');
-    if (savedData) {
-      // Log the saved data to the console
-      console.log('Saved data retrieved from local storage:', savedData);
-      // Parse the saved data
-      const parsedData = JSON.parse(savedData);
-      // Log the parsed data to the console
-      console.log('Parsed data:', parsedData);
-      // Update the feedback state with the parsed data
-      setFeedback(parsedData);
-    }
-  }, []);
+const FeedbackForm=()=> {
+  const [feedback, setFeedback] = useState(initial_value);
+   const {name,cleanliness,complaints,satisfaction}=feedback;
+   const navigate = useNavigate();
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFeedback({ ...feedback, [name]: value });
+  const onValueChange = (e) => {
+    setFeedback({ ...feedback, [e.target.name]: e.target.value });
   };
 
   const handleSatisfactionChange = (satisfaction) => {
-    setFeedback({ ...feedback, satisfaction });
+    setFeedback({ ...feedback, satisfaction:satisfaction });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-    
-    console.log('Form is being submitted...'); // Add this line to check if handleSubmit is triggered
-
-    // Log the feedback data to console to verify its contents
-    console.log('Feedback data:', feedback);
-
-    // Handle form submission logic here
-    console.log('Form submitted:', feedback);
-  
-    // Save data to local storage
-    localStorage.setItem('feedbackData', JSON.stringify(feedback));
-
-    // Navigate to the ThankYou component
-    if (navigate) {
-      navigate('/thank-you');
-    } else {
-      console.error('Navigate object is undefined.');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!feedback.satisfaction) {
+      alert('Please select a satisfaction level.');
+      return;
     }
+    console.log(feedback);
+    addFeedback(feedback);
+
+    // Navigate to ThankYou component
+    navigate('/');
   };
 
   return (
@@ -66,15 +44,15 @@ function FeedbackForm() {
           <form onSubmit={handleSubmit}>
             <label>
               Your Name:
-              <input type="text" name="name" value={feedback.name} onChange={handleInputChange} required />
+              <input type="text" name="name" value={name} onChange={(e) => onValueChange(e)} required />
             </label>
             <label>
               Cleanliness:
-              <textarea name="cleanliness" value={feedback.cleanliness} onChange={handleInputChange} rows="4" required />
+              <textarea name="cleanliness" value={cleanliness} onChange={(e) => onValueChange(e)} rows="4" required />
             </label>
             <label>
               Area for Improvement (if any):
-              <textarea name="complaints" value={feedback.complaints} onChange={handleInputChange} rows="4" />
+              <textarea name="complaints" value={complaints} onChange={(e) => onValueChange(e)} rows="4" />
             </label>
             <div className="satisfaction">
               <label>Satisfaction Level:</label>
